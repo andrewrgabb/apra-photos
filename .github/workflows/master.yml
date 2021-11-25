@@ -4,11 +4,10 @@ name: Production Build for Apra Photos
 
 # Controls when the workflow will run
 on:
-  # Triggers the workflow on push to the main branch
+  # Triggers the workflow on push to the master branch
   push:
-    branches: [ master ]
-    paths:
-      - '.'
+    branches:
+      - master
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
