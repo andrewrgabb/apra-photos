@@ -2,8 +2,8 @@ import React from "react";
 import { render, screen } from "@testing-library/react";
 import App from "./App";
 
-test("renders view photos link", () => {
+test("renders title", () => {
   render(<App />);
-  const linkElement = screen.getByText(/view photos/i);
-  expect(linkElement).toBeInTheDocument();
+  const titleElement = screen.getByText(/apra photos/i);
+  expect(titleElement).toBeInTheDocument();
 });
