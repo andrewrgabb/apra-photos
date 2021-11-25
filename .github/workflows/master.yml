@@ -18,6 +18,7 @@ jobs:
   build-react-app:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
+    environment: AWS Deployment
 
     strategy:
       matrix:
