@@ -1,24 +1,33 @@
 import React from "react";
-import logo from "./logo.svg";
-import "./App.css";
+import { Container } from "@mui/material";
+import styled from "@emotion/styled";
+import PhotoGallery from "./components/PhotoGallery";
 
-function App() {
+const Background = styled.div`
+  background-color: #efefef;
+  height: 100%;
+  width: 100%;
+`;
+
+const AppContainer = styled(Container)`
+  color: black;
+  min-height: 100vh;
+  background-color: #fdfdfd;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: start;
+`;
+
+const App = (): JSX.Element => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>Andrew Gabb's Apra Photos App</p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          View Photos
-        </a>
-      </header>
-    </div>
+    <Background>
+      <AppContainer maxWidth="md">
+        <h1>APRA Photos</h1>
+        <PhotoGallery />
+      </AppContainer>
+    </Background>
   );
-}
+};
 
 export default App;
