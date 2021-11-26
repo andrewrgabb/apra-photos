@@ -31,7 +31,7 @@ const App = (): JSX.Element => {
     setPage,
     limit,
     setLimit,
-    numPages,
+    totalCount,
   } = usePhotos();
 
   return (
@@ -48,7 +48,7 @@ const App = (): JSX.Element => {
           setPage={setPage}
           limit={limit}
           setLimit={setLimit}
-          numPages={numPages}
+          totalCount={totalCount}
         />
       </AppContainer>
     </Background>
