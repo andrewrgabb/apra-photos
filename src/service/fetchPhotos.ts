@@ -20,7 +20,7 @@ type Body = {
 
 const API = "https://graphqlzero.almansi.me/api";
 
-// Fetch Reqeust
+// Retrieve photo data from the API
 export const fetchPhotos = async (
   search: string,
   page: number,

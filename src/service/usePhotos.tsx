@@ -14,6 +14,7 @@ interface UsePhotosHook {
   totalCount: number;
 }
 
+// Handle the application state and communicate with the API
 const usePhotos = (): UsePhotosHook => {
   const [photos, setPhotos] = React.useState<Photo[] | undefined>(undefined);
   const [loading, setLoading] = React.useState<boolean>(true);
