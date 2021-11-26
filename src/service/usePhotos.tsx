@@ -18,7 +18,7 @@ const usePhotos = (): UsePhotosHook => {
   const [photos, setPhotos] = React.useState<Photo[] | undefined>(undefined);
   const [loading, setLoading] = React.useState<boolean>(true);
   const [error, setError] = React.useState<boolean>(true);
-  const [search, setSearch] = React.useState<string>("officia");
+  const [search, setSearch] = React.useState<string>("");
   const [page, setPage] = React.useState<number>(0);
   const [limit, setLimit] = React.useState<number>(5);
   const [totalCount, setTotalCount] = React.useState<number>(5);
