@@ -9,6 +9,7 @@ import Paper from "@mui/material/Paper";
 import styled from "@emotion/styled";
 import { TablePagination, TextField } from "@mui/material";
 import { Photo } from "../service/fetchPhotos";
+import loaderGif from "../images/loader.gif";
 
 // Search Bar
 
@@ -16,19 +17,28 @@ import { Photo } from "../service/fetchPhotos";
 
 // Photo Gallery component for the image pop-up
 
-const PhotoGalleryDiv = styled.div`
+const MaxWidthDiv = styled.div`
   width: 100%;
   max-width: 40rem;
+`;
+
+const PhotoGalleryDiv = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: start;
-  items-align: center;
+  align-items: center;
   margin: 1rem 0.5rem 4rem 0.5rem;
 `;
 
 const Thumbnail = styled.img`
   height: 4rem;
   width: 4rem;
+`;
+
+const Loader = styled.img`
+  height: 6rem;
+  width: 6rem;
 `;
 
 function createData(id: string, title: string, url: string) {
@@ -145,11 +155,15 @@ const PhotoGallery = (props: PhotoGalleryProps): JSX.Element => {
     </Paper>
   );
 
+  const renderLoader = <Loader src={loaderGif} />;
+
   return (
-    <PhotoGalleryDiv>
-      {renderSearchBar}
-      {renderTable}
-    </PhotoGalleryDiv>
+    <MaxWidthDiv>
+      <PhotoGalleryDiv>
+        {renderSearchBar}
+        {loading ? renderLoader : renderTable}
+      </PhotoGalleryDiv>
+    </MaxWidthDiv>
   );
 };
 
