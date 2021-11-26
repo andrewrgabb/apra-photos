@@ -94,7 +94,7 @@ const PhotoGallery = (props: PhotoGalleryProps): JSX.Element => {
 
   const renderTable = (
     <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+      <Table sx={{ width: `100%` }} aria-label="simple table">
         <TableHead>
           <TableRow>
             <TableCell align="left">ID</TableCell>
