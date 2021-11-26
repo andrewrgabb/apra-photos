@@ -21,8 +21,20 @@ const AppContainer = styled(Container)`
 `;
 
 const App = (): JSX.Element => {
-  // const {} =
-  usePhotos();
+  const {
+    photos,
+    loading,
+    error,
+    search,
+    setSearch,
+    page,
+    setPage,
+    limit,
+    setLimit,
+    numPages,
+  } = usePhotos();
+
+  console.log({ photos });
 
   return (
     <Background>
