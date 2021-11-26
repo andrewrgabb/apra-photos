@@ -8,6 +8,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import styled from "@emotion/styled";
 import { TextField } from "@mui/material";
+import { Photo } from "../service/fetchPhotos";
 
 // Search Bar
 
@@ -52,7 +53,33 @@ const rows = [
   ),
 ];
 
-const PhotoGallery = (): JSX.Element => {
+type PhotoGalleryProps = {
+  photos: Photo[] | undefined;
+  loading: boolean;
+  error: boolean;
+  search: string;
+  setSearch: (newSearch: string) => void;
+  page: number;
+  setPage: (newPage: number) => void;
+  limit: number;
+  setLimit: (newLimit: number) => void;
+  numPages: number;
+};
+
+const PhotoGallery = (props: PhotoGalleryProps): JSX.Element => {
+  const {
+    photos,
+    loading,
+    error,
+    search,
+    setSearch,
+    page,
+    setPage,
+    limit,
+    setLimit,
+    numPages,
+  } = props;
+
   const renderSearchBar = (
     <TextField
       id="outlined-search"
@@ -60,6 +87,8 @@ const PhotoGallery = (): JSX.Element => {
       type="search"
       fullWidth
       margin="normal"
+      value={search}
+      onChange={(e) => setSearch(e.target.value)}
     />
   );
 
@@ -74,18 +103,30 @@ const PhotoGallery = (): JSX.Element => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
+          {photos && photos.length > 0 ? (
+            photos.map((photo) => (
+              <TableRow
+                key={photo.id}
+                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+              >
+                <TableCell align="left">{photo.id}</TableCell>
+                <TableCell align="left">{photo.title}</TableCell>
+                <TableCell align="left">
+                  <Thumbnail src={photo.url} />
+                </TableCell>
+              </TableRow>
+            ))
+          ) : (
             <TableRow
-              key={row.id}
+              key={"none"}
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
-              <TableCell align="left">{row.id}</TableCell>
-              <TableCell align="left">{row.title}</TableCell>
-              <TableCell align="left">
-                <Thumbnail src={row.url} />
-              </TableCell>
+              <TableCell
+                colSpan={3}
+                align="center"
+              >{`There are no results for that search.`}</TableCell>
             </TableRow>
-          ))}
+          )}
         </TableBody>
       </Table>
     </TableContainer>
