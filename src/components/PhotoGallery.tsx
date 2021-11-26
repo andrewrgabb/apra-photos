@@ -11,13 +11,7 @@ import { Alert, TablePagination, TextField } from "@mui/material";
 import { Photo } from "../service/fetchPhotos";
 import loaderGif from "../images/loader.gif";
 import Lightbox from "react-image-lightbox";
-import "react-image-lightbox/style.css"; // This only needs to be imported once in your app
-
-// Search Bar
-
-// Mui table for the photos
-
-// Photo Gallery component for the image pop-up
+import "react-image-lightbox/style.css";
 
 const MaxWidthDiv = styled.div`
   width: 100%;
@@ -57,6 +51,8 @@ type PhotoGalleryProps = {
   totalCount: number;
 };
 
+// Display a search bar and a table of photo information
+// Display errors / loading indicator when appropriate
 const PhotoGallery = (props: PhotoGalleryProps): JSX.Element => {
   const {
     photos,
@@ -164,7 +160,7 @@ const PhotoGallery = (props: PhotoGalleryProps): JSX.Element => {
       <Alert severity="info">{`There are no results for that search.`}</Alert>
     );
 
-  const renderLoader = <Loader src={loaderGif} />;
+  const renderLoader = <Loader data-testid="loader" src={loaderGif} />;
   const renderError = (
     <Alert severity="error">An error occurred while loading the data.</Alert>
   );

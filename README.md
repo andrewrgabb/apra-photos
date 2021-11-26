@@ -1,6 +1,8 @@
-# Getting Started with Create React App
+# APRA Photos
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project is a simple photo gallery application that allows you to search photos, and then view them by clicking on them.
+
+The demo can be viewed at [https://apra-photos.andrewrgabb.com/](https://apra-photos.andrewrgabb.com/)
 
 ## Available Scripts
 
