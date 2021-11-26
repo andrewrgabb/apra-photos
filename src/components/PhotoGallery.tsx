@@ -7,7 +7,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import styled from "@emotion/styled";
-import { TextField } from "@mui/material";
+import { TablePagination, TextField } from "@mui/material";
 import { Photo } from "../service/fetchPhotos";
 
 // Search Bar
@@ -63,7 +63,7 @@ type PhotoGalleryProps = {
   setPage: (newPage: number) => void;
   limit: number;
   setLimit: (newLimit: number) => void;
-  numPages: number;
+  totalCount: number;
 };
 
 const PhotoGallery = (props: PhotoGalleryProps): JSX.Element => {
@@ -77,8 +77,23 @@ const PhotoGallery = (props: PhotoGalleryProps): JSX.Element => {
     setPage,
     limit,
     setLimit,
-    numPages,
+    totalCount,
   } = props;
+
+  const handleChangePage = (
+    event: React.MouseEvent<HTMLButtonElement> | null,
+    newPage: number
+  ) => {
+    setPage(newPage);
+    console.log(newPage);
+  };
+
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setLimit(parseInt(event.target.value, 10));
+    setPage(0);
+  };
 
   const renderSearchBar = (
     <TextField
@@ -93,43 +108,60 @@ const PhotoGallery = (props: PhotoGalleryProps): JSX.Element => {
   );
 
   const renderTable = (
-    <TableContainer component={Paper}>
-      <Table sx={{ width: `100%` }} aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell align="left">ID</TableCell>
-            <TableCell align="left">Title</TableCell>
-            <TableCell align="left">Thumbnail</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {photos && photos.length > 0 ? (
-            photos.map((photo) => (
+    <Paper>
+      <TableContainer>
+        <Table
+          sx={{ minWidth: `50rem`, width: `100%` }}
+          aria-label="photo table"
+        >
+          <TableHead>
+            <TableRow>
+              <TableCell align="left">ID</TableCell>
+              <TableCell align="left">Title</TableCell>
+              <TableCell align="left">Thumbnail</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {photos && photos.length > 0 ? (
+              photos.map((photo) => (
+                <TableRow
+                  key={photo.id}
+                  sx={{
+                    "&:last-child td, &:last-child th": { border: 0 },
+                  }}
+                >
+                  <TableCell align="left">{photo.id}</TableCell>
+                  <TableCell align="left">{photo.title}</TableCell>
+                  <TableCell align="left">
+                    <Thumbnail src={photo.url} />
+                  </TableCell>
+                </TableRow>
+              ))
+            ) : (
               <TableRow
-                key={photo.id}
+                key={"none"}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
-                <TableCell align="left">{photo.id}</TableCell>
-                <TableCell align="left">{photo.title}</TableCell>
-                <TableCell align="left">
-                  <Thumbnail src={photo.url} />
-                </TableCell>
+                <TableCell
+                  colSpan={3}
+                  align="center"
+                >{`There are no results for that search.`}</TableCell>
               </TableRow>
-            ))
-          ) : (
-            <TableRow
-              key={"none"}
-              sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-            >
-              <TableCell
-                colSpan={3}
-                align="center"
-              >{`There are no results for that search.`}</TableCell>
-            </TableRow>
-          )}
-        </TableBody>
-      </Table>
-    </TableContainer>
+            )}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <TablePagination
+        sx={{ width: `100%` }}
+        rowsPerPageOptions={[5, 10, 25]}
+        component="div"
+        count={totalCount}
+        rowsPerPage={limit}
+        page={page}
+        onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+      />
+    </Paper>
   );
 
   return (

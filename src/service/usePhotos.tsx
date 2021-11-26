@@ -11,7 +11,7 @@ interface UsePhotosHook {
   setPage: (newPage: number) => void;
   limit: number;
   setLimit: (newLimit: number) => void;
-  numPages: number;
+  totalCount: number;
 }
 
 const usePhotos = (): UsePhotosHook => {
@@ -19,9 +19,9 @@ const usePhotos = (): UsePhotosHook => {
   const [loading, setLoading] = React.useState<boolean>(true);
   const [error, setError] = React.useState<boolean>(true);
   const [search, setSearch] = React.useState<string>("officia");
-  const [page, setPage] = React.useState<number>(1);
+  const [page, setPage] = React.useState<number>(0);
   const [limit, setLimit] = React.useState<number>(5);
-  const [numPages, setNumPages] = React.useState<number>(1);
+  const [totalCount, setTotalCount] = React.useState<number>(5);
 
   React.useEffect(() => {
     getPhotos();
@@ -32,18 +32,19 @@ const usePhotos = (): UsePhotosHook => {
   const getPhotos = async () => {
     setLoading(true);
 
-    await fetchPhotos(search, page, limit)
+    await fetchPhotos(search, page + 1, limit)
       .then((res: Photos) => {
         // Set the new photo data
         setPhotos(res.data);
 
+        setTotalCount(res.meta.totalCount);
+
         // Calculate the number of pages available
         const newNumPages = Math.ceil(res.meta.totalCount / limit);
-        setNumPages(newNumPages);
 
         // Update the current page number if appropriate
         if (page > newNumPages) {
-          setPage(newNumPages);
+          setPage(newNumPages - 1);
         }
 
         setError(false);
@@ -64,7 +65,7 @@ const usePhotos = (): UsePhotosHook => {
     setPage: setPage,
     limit: limit,
     setLimit: setLimit,
-    numPages: numPages,
+    totalCount: totalCount,
   };
 };
 
