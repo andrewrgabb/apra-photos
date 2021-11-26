@@ -16,6 +16,16 @@ import { Photo } from "../service/fetchPhotos";
 
 // Photo Gallery component for the image pop-up
 
+const PhotoGalleryDiv = styled.div`
+  width: 100%;
+  max-width: 40rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  items-align: center;
+  margin: 1rem 0.5rem 4rem 0.5rem;
+`;
+
 const Thumbnail = styled.img`
   height: 4rem;
   width: 4rem;
@@ -24,34 +34,6 @@ const Thumbnail = styled.img`
 function createData(id: string, title: string, url: string) {
   return { id, title, url };
 }
-
-const rows = [
-  createData(
-    "3",
-    "officia porro iure quia iusto qui ipsa ut modi",
-    "https://via.placeholder.com/600/24f355"
-  ),
-  createData(
-    "7",
-    "officia delectus consequatur vero aut veniam explicabo molestias",
-    "https://via.placeholder.com/600/b0f7cc"
-  ),
-  createData(
-    "56",
-    "vel voluptatem esse consequuntur est officia quo aut quisquam",
-    "https://via.placeholder.com/600/f9f067"
-  ),
-  createData(
-    "250",
-    "voluptatem repellendus voluptatibus id occaecati ipsam dignissimos officia",
-    "https://via.placeholder.com/600/e33ffb"
-  ),
-  createData(
-    "261",
-    "officia fugit corrupti impedit enim odit",
-    "https://via.placeholder.com/600/96dc0d"
-  ),
-];
 
 type PhotoGalleryProps = {
   photos: Photo[] | undefined;
@@ -104,16 +86,14 @@ const PhotoGallery = (props: PhotoGalleryProps): JSX.Element => {
       margin="normal"
       value={search}
       onChange={(e) => setSearch(e.target.value)}
+      sx={{ marginBottom: `2rem` }}
     />
   );
 
   const renderTable = (
-    <Paper>
-      <TableContainer>
-        <Table
-          sx={{ minWidth: `50rem`, width: `100%` }}
-          aria-label="photo table"
-        >
+    <Paper sx={{ width: `100%` }}>
+      <TableContainer sx={{ width: `100%` }}>
+        <Table sx={{ width: `100%` }} aria-label="photo table">
           <TableHead>
             <TableRow>
               <TableCell align="left">ID</TableCell>
@@ -160,15 +140,16 @@ const PhotoGallery = (props: PhotoGalleryProps): JSX.Element => {
         page={page}
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
+        labelRowsPerPage={"Rows"}
       />
     </Paper>
   );
 
   return (
-    <div>
+    <PhotoGalleryDiv>
       {renderSearchBar}
       {renderTable}
-    </div>
+    </PhotoGalleryDiv>
   );
 };
 
