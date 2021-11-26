@@ -10,6 +10,8 @@ import styled from "@emotion/styled";
 import { Alert, TablePagination, TextField } from "@mui/material";
 import { Photo } from "../service/fetchPhotos";
 import loaderGif from "../images/loader.gif";
+import Lightbox from "react-image-lightbox";
+import "react-image-lightbox/style.css"; // This only needs to be imported once in your app
 
 // Search Bar
 
@@ -34,6 +36,7 @@ const PhotoGalleryDiv = styled.div`
 const Thumbnail = styled.img`
   height: 4rem;
   width: 4rem;
+  cursor: pointer;
 `;
 
 const Loader = styled.img`
@@ -67,6 +70,14 @@ const PhotoGallery = (props: PhotoGalleryProps): JSX.Element => {
     setLimit,
     totalCount,
   } = props;
+
+  const [isOpen, setIsOpen] = React.useState<boolean>(false);
+  const [imageSrc, setImageSrc] = React.useState<string>("");
+
+  const openImage = (src: string) => {
+    setImageSrc(src);
+    setIsOpen(true);
+  };
 
   const handleChangePage = (
     event: React.MouseEvent<HTMLButtonElement> | null,
@@ -116,10 +127,21 @@ const PhotoGallery = (props: PhotoGalleryProps): JSX.Element => {
                     "&:last-child td, &:last-child th": { border: 0 },
                   }}
                 >
-                  <TableCell align="left">{photo.id}</TableCell>
+                  <TableCell
+                    align="left"
+                    sx={{
+                      cursor: "pointer",
+                    }}
+                    onClick={() => openImage(photo.url)}
+                  >
+                    {photo.id}
+                  </TableCell>
                   <TableCell align="left">{photo.title}</TableCell>
                   <TableCell align="left">
-                    <Thumbnail src={photo.url} />
+                    <Thumbnail
+                      onClick={() => openImage(photo.url)}
+                      src={photo.url}
+                    />
                   </TableCell>
                 </TableRow>
               ))}
@@ -148,12 +170,24 @@ const PhotoGallery = (props: PhotoGalleryProps): JSX.Element => {
   );
 
   return (
-    <MaxWidthDiv>
-      <PhotoGalleryDiv>
-        {renderSearchBar}
-        {loading ? renderLoader : error ? renderError : renderTable}
-      </PhotoGalleryDiv>
-    </MaxWidthDiv>
+    <React.Fragment>
+      <MaxWidthDiv>
+        <PhotoGalleryDiv>
+          {renderSearchBar}
+          {loading ? renderLoader : error ? renderError : renderTable}
+        </PhotoGalleryDiv>
+      </MaxWidthDiv>
+      {isOpen && (
+        <Lightbox
+          mainSrc={imageSrc}
+          nextSrc={imageSrc}
+          prevSrc={imageSrc}
+          onCloseRequest={() => setIsOpen(false)}
+          onMovePrevRequest={() => {}}
+          onMoveNextRequest={() => {}}
+        />
+      )}
+    </React.Fragment>
   );
 };
 
