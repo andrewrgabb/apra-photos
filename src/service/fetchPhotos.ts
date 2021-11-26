@@ -1,5 +1,4 @@
 // Types
-
 export type Photo = {
   id: string;
   title: string;
@@ -21,6 +20,7 @@ type Body = {
 
 const API = "https://graphqlzero.almansi.me/api";
 
+// Fetch Reqeust
 export const fetchPhotos = async (): Promise<Photos> => {
   const query = `
   query($options: PageQueryOptions) {

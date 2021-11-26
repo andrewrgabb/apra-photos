@@ -2,6 +2,7 @@ import React from "react";
 import { Container } from "@mui/material";
 import styled from "@emotion/styled";
 import PhotoGallery from "./components/PhotoGallery";
+import usePhotos from "./service/usePhotos";
 
 const Background = styled.div`
   background-color: #efefef;
@@ -20,6 +21,8 @@ const AppContainer = styled(Container)`
 `;
 
 const App = (): JSX.Element => {
+  usePhotos();
+
   return (
     <Background>
       <AppContainer maxWidth="md">
