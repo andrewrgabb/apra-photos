@@ -34,13 +34,22 @@ const App = (): JSX.Element => {
     numPages,
   } = usePhotos();
 
-  console.log({ photos });
-
   return (
     <Background>
       <AppContainer maxWidth="md">
         <h1>APRA Photos</h1>
-        <PhotoGallery />
+        <PhotoGallery
+          photos={photos}
+          loading={loading}
+          error={error}
+          search={search}
+          setSearch={setSearch}
+          page={page}
+          setPage={setPage}
+          limit={limit}
+          setLimit={setLimit}
+          numPages={numPages}
+        />
       </AppContainer>
     </Background>
   );
