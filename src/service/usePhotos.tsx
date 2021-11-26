@@ -44,7 +44,9 @@ const usePhotos = (): UsePhotosHook => {
 
         // Update the current page number if appropriate
         if (page > newNumPages) {
-          setPage(newNumPages - 1);
+          if (newNumPages - 1 >= 0) {
+            setPage(newNumPages - 1);
+          }
         }
 
         setError(false);

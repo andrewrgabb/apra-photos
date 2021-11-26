@@ -7,7 +7,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import styled from "@emotion/styled";
-import { TablePagination, TextField } from "@mui/material";
+import { Alert, TablePagination, TextField } from "@mui/material";
 import { Photo } from "../service/fetchPhotos";
 import loaderGif from "../images/loader.gif";
 
@@ -40,10 +40,6 @@ const Loader = styled.img`
   height: 6rem;
   width: 6rem;
 `;
-
-function createData(id: string, title: string, url: string) {
-  return { id, title, url };
-}
 
 type PhotoGalleryProps = {
   photos: Photo[] | undefined;
@@ -90,7 +86,7 @@ const PhotoGallery = (props: PhotoGalleryProps): JSX.Element => {
   const renderSearchBar = (
     <TextField
       id="outlined-search"
-      label="Search field"
+      label="Search by title"
       type="search"
       fullWidth
       margin="normal"
@@ -100,20 +96,20 @@ const PhotoGallery = (props: PhotoGalleryProps): JSX.Element => {
     />
   );
 
-  const renderTable = (
-    <Paper sx={{ width: `100%` }}>
-      <TableContainer sx={{ width: `100%` }}>
-        <Table sx={{ width: `100%` }} aria-label="photo table">
-          <TableHead>
-            <TableRow>
-              <TableCell align="left">ID</TableCell>
-              <TableCell align="left">Title</TableCell>
-              <TableCell align="left">Thumbnail</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {photos && photos.length > 0 ? (
-              photos.map((photo) => (
+  const renderTable =
+    photos && photos.length > 0 ? (
+      <Paper sx={{ width: `100%` }}>
+        <TableContainer sx={{ width: `100%` }}>
+          <Table sx={{ width: `100%` }} aria-label="photo table">
+            <TableHead>
+              <TableRow>
+                <TableCell align="left">ID</TableCell>
+                <TableCell align="left">Title</TableCell>
+                <TableCell align="left">Thumbnail</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {photos.map((photo) => (
                 <TableRow
                   key={photo.id}
                   sx={{
@@ -126,42 +122,36 @@ const PhotoGallery = (props: PhotoGalleryProps): JSX.Element => {
                     <Thumbnail src={photo.url} />
                   </TableCell>
                 </TableRow>
-              ))
-            ) : (
-              <TableRow
-                key={"none"}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              >
-                <TableCell
-                  colSpan={3}
-                  align="center"
-                >{`There are no results for that search.`}</TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <TablePagination
-        sx={{ width: `100%` }}
-        rowsPerPageOptions={[5, 10, 25]}
-        component="div"
-        count={totalCount}
-        rowsPerPage={limit}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-        labelRowsPerPage={"Rows"}
-      />
-    </Paper>
-  );
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <TablePagination
+          sx={{ width: `100%` }}
+          rowsPerPageOptions={[5, 10, 25]}
+          component="div"
+          count={totalCount}
+          rowsPerPage={limit}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+          labelRowsPerPage={"Rows"}
+        />
+      </Paper>
+    ) : (
+      <Alert severity="info">{`There are no results for that search.`}</Alert>
+    );
 
   const renderLoader = <Loader src={loaderGif} />;
+  const renderError = (
+    <Alert severity="error">An error occurred while loading the data.</Alert>
+  );
 
   return (
     <MaxWidthDiv>
       <PhotoGalleryDiv>
         {renderSearchBar}
-        {loading ? renderLoader : renderTable}
+        {loading ? renderLoader : error ? renderError : renderTable}
       </PhotoGalleryDiv>
     </MaxWidthDiv>
   );
