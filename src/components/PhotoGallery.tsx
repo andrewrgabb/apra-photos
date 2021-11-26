@@ -160,7 +160,7 @@ const PhotoGallery = (props: PhotoGalleryProps): JSX.Element => {
       <Alert severity="info">{`There are no results for that search.`}</Alert>
     );
 
-  const renderLoader = <Loader src={loaderGif} />;
+  const renderLoader = <Loader data-testid="loader" src={loaderGif} />;
   const renderError = (
     <Alert severity="error">An error occurred while loading the data.</Alert>
   );
